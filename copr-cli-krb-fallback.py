@@ -16,6 +16,7 @@ if token is None:
         log.info("Trying kerberos with %s", username)
         log.info("silence this by 'kerberos = True' in your config")
  
-    # Go with kerberos log-in attempt
+    # Go with kerberos log-in attempt because there's no token file.
 else:
-    # Go without kerberos here (old-code)
+    # Go with token.  Token is preferred over kerberos, even if kerberos is
+    # is available.

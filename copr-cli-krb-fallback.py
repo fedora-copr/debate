@@ -1,9 +1,11 @@
 #! /bin/python
 
 copr_instance = "fedora"
+token = None
+
 if config_file:
    # load instance (fedora/redhat/..), username, token, etc.
-   load_config_file()
+   ... = load_config_file()
   
 if username is None:
    username = pwname()

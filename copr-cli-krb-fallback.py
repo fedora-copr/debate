@@ -3,7 +3,9 @@
 copr_instance = "fedora"
 token = None
 
-if config_file:
+# python3-copr && copr-cli should use the same logic
+
+if config_file:  # ~/.config/copr (or --config)
    # load instance (fedora/redhat/..), username, token, etc.
    ... = load_config_file()
      

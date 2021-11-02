@@ -9,9 +9,11 @@ if config_file:  # ~/.config/copr (or --config)
    # load instance (fedora/redhat/..), username, token, etc.
    ... = load_config_file()
      
-if token is None:
+if token is None or username is None:
     # How do we know the username for e.g. 'dnf build <projectname> local.src.rpm'?
     # Do we need it?
+    if not username:
+         username = kerberos.auth_check()
    
     # (temporarily?) notify that we use kerberos, can be opt-outed by config
     if not config.kerberos:

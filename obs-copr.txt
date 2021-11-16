@@ -5,6 +5,9 @@
   <project>/distributions/new, e.g. https://build.opensuse.org/projects/home:praiskup:resalloc/distributions/new
   - debian && debbuild (Neal), what about mock?
 - tokens with various privileges
+- commandline
+    osc less science:unstable FreeCAD FreeCAD.spec
+    osc checkout home:praiskup:resalloc
 - source methods
   - links
     - https://en.opensuse.org/openSUSE:Build_Service_Concept_SourceService

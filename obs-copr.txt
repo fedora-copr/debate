@@ -1,9 +1,22 @@
 - projects && sub-projects
-- source methods
-  - https://openbuildservice.org/help/manuals/obs-user-guide/cha.obs.source_service.html
-- webhooks
 - event-based rebuilds
-- debian && debbuild (Neal)
-  - mock?
-- tokens with various privileges
 - states finished/succeeded (createrepo)
+- wide range of supported distributions
+  <project>/distributions/new, e.g. https://build.opensuse.org/projects/home:praiskup:resalloc/distributions/new
+  - debian && debbuild (Neal), what about mock?
+- tokens with various privileges
+- source methods
+  - links
+    - https://en.opensuse.org/openSUSE:Build_Service_Concept_SourceService
+    - https://openbuildservice.org/help/manuals/obs-user-guide/cha.obs.source_service.html
+    - https://build.opensuse.org/package/view_file/science:unstable/FreeCAD/FreeCAD.spec?expand=1
+  - server-side methods not adjustable (security), probably run on backend?
+  - no "generic" SCM method to modify sources (reproducibility)
+    - pros - saved space in lookaside cache
+    - cons
+        - hacks in spec file, https://build.opensuse.org/package/view_file/science:unstable/FreeCAD/FreeCAD.spec?expand=1
+        - or difficult setup, https://build.opensuse.org/package/view_file/home:praiskup:resalloc/resalloc/_service?expand=1
+
+- webhooks
+  - https://linuxkamarada.com/en/2019/03/19/integrating-the-open-build-service-with-github/#.YZNyYLso_9Y
+  - only "push" and "open PR event" (not force push, comments, etc.)

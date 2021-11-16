@@ -1,3 +1,4 @@
+- projects && sub-projects
 - source methods
   - https://openbuildservice.org/help/manuals/obs-user-guide/cha.obs.source_service.html
 - webhooks
@@ -5,3 +6,4 @@
 - debian && debbuild (Neal)
   - mock?
 - tokens with various privileges
+- states finished/succeeded (createrepo)

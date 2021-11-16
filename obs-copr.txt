@@ -1,5 +1,7 @@
 - source methods
+  - https://openbuildservice.org/help/manuals/obs-user-guide/cha.obs.source_service.html
 - webhooks
 - event-based rebuilds
 - debian && debbuild (Neal)
   - mock?
+- tokens with various privileges

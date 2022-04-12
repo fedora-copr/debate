@@ -1,5 +1,8 @@
 """
 PR 2160 proposal for auth hierarchy
+
+After the detailed dsicussion, we should probalby implement something like:
+https://docs.python-requests.org/en/latest/user/authentication/#new-forms-of-authentication
 """
 
 class AuthBase:

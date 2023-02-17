@@ -9,11 +9,13 @@ Glossary
 ========
 
 - Distribution
+
     Represents a user consumable content, on a http://some/path/ address
 
     Points at the last *repository version* through the last *publication*
 
 - Publication
+
     Point in time when we decide we want to publish a repository changes
     in *distribution*.
 
@@ -30,14 +32,17 @@ Glossary
     objects.
 
 - Repository
+
     Named abstraction for a "repository".  When we add/remove content, we
     don't add to a concrete repository version.  We add to *repository*
     and new version is generated.
 
 - Artefact
+
     A data blob identified by sha256
 
 - Content
+
     points at Artefact, but contains additional has additional metadata
 
 
@@ -49,16 +54,22 @@ HOW IT WORKS
 ============
 
 create a "Repo" and "Distribution"
+
 upload RPM1 RPM2 RPM3
+
 add RPM1 to Repo      <=  Repo Version 1
+
 add RPM2 to Repo      <=  Repo Version 2  <= Publication 1  <= Distribution
+
 remove RPM1 from Repo <=  Repo Version 3
+
 add RPM3 to Repo      <=  Repo Version 4  <= Publication 2  <= Distrubution
 
 
 Prepare environment
 ===================
 
+```
 https://pulpproject.org/pulp-in-one-container/
 
 https://copr.fedorainfracloud.org/coprs/praiskup/pulp-cli/
@@ -78,11 +89,13 @@ format = "json"
 dry_run = false
 timeout = 0
 verbose = 0
+```
 
 
 Demo with one possible work-flow
 ================================
 
+```
 $ pulp rpm repository create --retain-repo-versions 3 --name @copr/copr-dev/fedora-rawhide-x86_64
     [--retain-package-versions N]
 
@@ -119,11 +132,13 @@ $ pulp rpm publication create --repository @copr/copr-dev/fedora-rawhide-x86_64
 $ pulp rpm distribution update \
     --name @copr/copr-dev/fedora-rawhide-x86_64 \
     --publication /pulp/api/v3/publications/rpm/rpm/925e7556-5dcc-4109-8c95-4a37fdd809e3/
+```
 
 
 Other commands
 ==============
 
+```
 $ pulp rpm repository version list --repository @copr/copr-dev/fedora-rawhide-x86_64
 $ pulp rpm repository content list --repository @copr/copr-dev/fedora-rawhide-x86_64
 
@@ -131,3 +146,4 @@ $ pulp rpm content -t package list
 $ pulp rpm repository destroy --name @copr/copr-dev/fedora-rawhide-x86_64
 $ pulp orphan cleanup --protection-time 1
 $ pulp rpm distribution destroy --href ...
+```

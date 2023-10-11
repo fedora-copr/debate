@@ -23,6 +23,8 @@ wisely.
       team up for debugging issues that need more builders at once
     - No need for group instances, users can do whatever they want,
       including adding access to their team members
+    - This number should be configurable, internal Copr (or other Copr
+      instances) might be able to afford higher numbers.
 
 - Builders need to have a limited lifespan, e.g. 48 hours
     - When submitting a build in Copr, we allow to adjust the timeout
@@ -30,9 +32,9 @@ wisely.
       least 30 hours.
     - I propose 48 hours because we want to give users enough time for
       debugging after the build finishes
-    - Alternatively, we can do a 24-hours lifespan and add an "extend"
-      button to Copr WebUI or to add a `copr-builder-extend` command
-      to the instance.
+    - We should keep the builder for 1 hour by default and add an
+      "extend" button to Copr WebUI or to add a `copr-builder-extend`
+      command to the instance.
 
 - Users can do whatever they want with the builder instance ... but
   not really. Users cannot violate any rules defined in
@@ -44,6 +46,9 @@ wisely.
 
 
 ## Workflow
+
+We decided to go with `Option 3 - Resubmit and keep for ssh`.
+
 
 ### Option 1 - Button
 
@@ -71,6 +76,20 @@ but:
 - Inability to select an instance type in advance so it may be hard
   to debug builds where e.g. Amazon AWS Spot instance is needed
   and nothing else.
+
+### Option 3 - Resubmit and keep for ssh
+
+Next to the "Resubmit" button, we could have another "Resubmit and
+keep for ssh" button. This will be the case for both failed and
+succeeded builds. It is not guaranteed that user will get a builder
+from the same pool but this might turn out not to be a problem, we
+will see. It should be easy to improve this if needed - we could start
+tracking builder pool for each build and then use this information
+when resubmitting.
+
+This option will be the most user friendly. No settings, no
+architecture/pool selection, etc.
+
 
 ### Common ground
 
@@ -101,6 +120,8 @@ config file on copr-frontend.
 
 ## Auth
 
+We decided to go with `Option 1 - SSH key`.
+
 ### Option 1 - SSH key
 
 There is a [FAS API][fas-api] and it can query each user and their
@@ -108,8 +129,14 @@ SSH key, e.g. [mine is here][fas-api-frostyx]. But it requires auth,
 not sure if `fkinit` or recently logging into some Fedora service,
 but try it in an anonymous window, it doesn't work.
 
+Fetching SSH keys without authentication
+[requested here][keys-without-auth].
+
 Anyway, Copr already fetches some user information from FAS so I think
 we can assume we will be able to fetch the SSH keys as well.
+
+For other Copr instances, we will need to fetch SSH keys from LDAP,
+etc.
 
 Alternativelly, we could allow users to specify a public URL to their
 SSH key, upload it, or copy-paste it to some Copr form, but I don't
@@ -121,9 +148,11 @@ like any of these options.
 Much easier option to implement would be generating an unique password
 for each instance and show it in instructions. If users want, they
 could change the password after logging-in, upload their SSH key,
-whatever they want.
+whatever they want. We would have to add some `*_private` database
+table though.
 
-Personally, I prefer `Option 2 - Passwords`.
+The major problem is that this option would be disapproved for
+internal Copr by security initiatives.
 
 
 ## Security
@@ -133,6 +162,8 @@ We need to make sure that:
 - It is not possible to override a status of an already finished build
 - Users cannot take a build from the queue (maybe not even theirs) and
   process it
+- The (broken) builder is not used for any other consequent builds by
+  the user. We can generate unique `--sandbox` for the ticket.
 
 
 
@@ -140,3 +171,4 @@ We need to make sure that:
 [fas-api]: https://fasjson.fedoraproject.org/docs/v1/
 [fas-api-frostyx]: https://fasjson.fedoraproject.org/v1/users/frostyx/
 [resalloc-pools]: https://copr-be.cloud.fedoraproject.org/resalloc/pools
+[keys-without-auth]: https://github.com/fedora-infra/fasjson/issues/580

@@ -7,3 +7,4 @@ development and brainstorming (at least for now).
 ## Topics
 
 - [Give users SSH access to builders](./user-ssh-builders/README.md)
+- [Consolidate the way we allocate workers](./cloud-allocation/README.md)

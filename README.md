@@ -9,3 +9,4 @@ development and brainstorming (at least for now).
 - [Working with PULP](./2023-02-17-pulp-intro.md)
 - [Give users SSH access to builders](./user-ssh-builders/README.md)
 - [EOL old rawhide chroots](./2024-04-23-rawhide-chroots-eol.md)
+- [Pydantic + RestX](./2024-04-29-pydantic-and-flask-restx.py)

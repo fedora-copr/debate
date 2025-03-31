@@ -8,43 +8,51 @@ Plugin Copr needs: pulp_rpm
 Glossary
 ========
 
-- Distribution
-
-    Represents a user consumable content, on a http://some/path/ address
-
-    Points at the last *repository version* through the last *publication*
-
-- Publication
-
-    Point in time when we decide we want to publish a repository changes
-    in *distribution*.
-
-    (*distribution* points at a concrete *publication*, and it determines
-    a concrete *repository version*).
-
-- Repository version
-
-    Represents *repository* state in a concrete time.  When a new
-    *content* (rpm) is uploaded and added to *repository*, new *version*
-    is generated.
-
-    Versions have a linear history, and are defined by set of *content*
-    objects.
-
-- Repository
-
-    Named abstraction for a "repository".  When we add/remove content, we
-    don't add to a concrete repository version.  We add to *repository*
-    and new version is generated.
-
-- Artefact
+- Artifact
 
     A data blob identified by sha256
 
 - Content
 
-    points at Artefact, but contains additional has additional metadata
+    points at Artifact, but contains additional metadata
 
+- Repository
+
+    Named abstraction for a "repository".  When we add/remove *content*,
+    we don't add to a specific repository version.  We add it to
+    a *repository* and new *version* is generated.
+
+- Repository version
+
+    Represents *repository* state in a specific time.  When a new
+    *content* (rpm) is uploaded and added to *repository*, new *repo
+    version* is generated automatically.
+
+    Versions have a linear history, and are defined by set of *content*
+    objects.
+
+    Creating a new *repository version* is relatively cheap; new RPM file
+    (artifact) needs to be added to the *repository* (a few rows in DB),
+    but still - new task is generated, and is taken once the worker
+    capacity allows).  But at least no RPM metadata files
+    (createrepo-like) are generated, yet.
+
+- Publication
+
+    Point in time when we decide we want to generate RPM repo metadata
+    files for given *repository version*.
+
+    (*distribution* points at a specific *publication*, and it determines
+    a specific *repository version*).
+
+    Generating publication is expensive; PULP has to generate RPM metadata
+    files for given (PG) database state.
+
+- Distribution
+
+    Represents a user consumable content, on a http://some/path/ address
+
+    Points at the last *repository version* through the last *publication*
 
 Every object above has it's own PULP object ID, e.g.
 /pulp/api/v3/distributions/rpm/rpm/457ccae4-8b9f-43b3-bb65-076f4c33f5db/
